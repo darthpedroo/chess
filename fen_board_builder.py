@@ -4,7 +4,8 @@ from tile import Tile
 from piece import Rook, Knight, Bishop, Queen, King, Pawn
 from exceptions import InvalidFenNotation
 from collections.abc import Iterator
-from board_drawer import BoardIteratorOneMatrix, BoardIteratorColumnRow
+from board_iterator import BoardIteratorOneMatrix, BoardIteratorColumnRow
+from coordinates import Coordinates
 
 
 class BoardBuilder(ABC):
@@ -32,41 +33,21 @@ class FenBoardBuilder(BoardBuilder):
             "P": Pawn("P"),
         }
     
-
-class FenBoardBuilderColumnRow(FenBoardBuilder):
-    """Builds a Board by a given Fen """
-    def __init__(self,  fen: Fen) -> None:
-        super().__init__(fen)
+    def change_coordinates(self, coordinates: Coordinates):
+        newcords = coordinates.copy()
+        if newcords.reach_x_threshold(7):
+            newcords.reset_x()
+            newcords.increase_y(1)
+        else:
+            newcords.increase_x(1)    
+        return newcords
     
-    def build_board(self):
-        board = []
-        row = []
-        for character in self._fen._fen_string:
-            if character == "/" :
-                board.append(row)
-                row = []
-            elif character.isspace():
-                board.append(row)
-                break
-            elif character in self._fen_piece_dict:
-                tile = Tile(self._fen_piece_dict[character])
-                row.append(tile)
-            elif character.isnumeric():
-                for i in range(int(character)): 
-                    tile = Tile()
-                    row.append(tile)
-            else:
-                raise InvalidFenNotation
-        return board
-
-    def get_iterator(self):
-        return BoardIteratorColumnRow(self.build_board())
-
 class FenBoardBuilderOneMatrix(FenBoardBuilder):
     def __init__(self, fen: Fen) -> None:
         super().__init__(fen)
     
     def build_board(self):
+        coordinates = Coordinates(0,0)
         board = []
         for character in self._fen._fen_string:
             if character == "/" :
@@ -74,14 +55,18 @@ class FenBoardBuilderOneMatrix(FenBoardBuilder):
             elif character.isspace():
                 break
             elif character in self._fen_piece_dict:
-                tile = Tile(self._fen_piece_dict[character])
+                tile = Tile(coordinates, self._fen_piece_dict[character])
                 board.append(tile)
+                coordinates = self.change_coordinates(coordinates)
             elif character.isnumeric():
-                for i in range(int(character)): 
-                    tile = Tile()
+                for i in range(int(character)):
+                    tile = Tile(coordinates)
                     board.append(tile)
+                    coordinates = self.change_coordinates(coordinates)
             else:
                 raise InvalidFenNotation
+            
+
         return board
     
     def get_iterator(self):

@@ -7,6 +7,9 @@ class Piece(ABC):
         self._fen_notation_piece = fen_notation_piece
         self._color = self._get_piece_color()
 
+    def display_piece(self):
+        return self._fen_notation_piece
+
     def _get_piece_color(self):
         if self._fen_notation_piece.upper() == self._fen_notation_piece:
             return COLORS["WHITE"]
