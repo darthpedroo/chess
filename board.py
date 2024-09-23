@@ -25,8 +25,8 @@ class Board(Iterable):
     
     def change_tile(self, new_tile: Tile):
         for index, tile in enumerate(self._board_representation):
-            if tile.are_coordinates_equal(new_tile._coordinates):  # Compare coordinates instead of tile equality
-                self._board_representation[index] = new_tile  # Update the tile at the found index
+            if tile.are_coordinates_equal(new_tile._coordinates):
+                self._board_representation[index] = new_tile  
                 break
     
     def change_piece_position(self, initial_tile, final_tile):
@@ -50,7 +50,7 @@ class Board(Iterable):
         self.change_tile(final_tile)
         print(f"Piece moved. New state at {final_tile._coordinates}: {final_tile}")
         return self._board_representation
-
+        #al mover la pieza se tiene que RECONSTRUIR EL FEN !
 
 
         

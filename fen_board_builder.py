@@ -46,7 +46,7 @@ class FenBoardBuilderOneMatrix(FenBoardBuilder):
     def __init__(self, fen: Fen) -> None:
         super().__init__(fen)
     
-    def build_board(self):
+    def build_board(self): #Pasar acá el FEN
         coordinates = Coordinates(0,0)
         board = []
         for character in self._fen._fen_string:

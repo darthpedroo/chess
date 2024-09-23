@@ -24,7 +24,7 @@ class TestBoard(unittest.TestCase):
     def test_02_jugador_mueve_pieza_tablero(self):
         print("New Board")
         porky = Player()
-        new_board = porky.move_piece(self.board, Coordinates(0, 0), Coordinates(4, 4))
+        new_board = porky.move_piece(self.board, Coordinates(0, 1), Coordinates(0, 3))
         self.game_processor_console.draw_board(new_board)  
 
     def test_03_jugador_mueve_pieza_tablero_que_no_es_suya(self):
