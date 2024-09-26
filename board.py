@@ -5,7 +5,7 @@ from board_iterator import BoardIterator
 from collections.abc import Iterable
 from coordinates import Coordinates
 from tile import Tile
-from exceptions import TileNotFound, TileHasNoPiece, TileHasPiece
+from exceptions.exceptions import TileNotFound, TileHasNoPiece, TileHasPiece
 
 class Board(Iterable):
     def __init__(self, board_builder: BoardBuilder) -> None:

@@ -1,6 +1,6 @@
 from piece import Piece
 from coordinates import Coordinates
-from exceptions import TileHasPiece
+from exceptions.exceptions import TileHasPiece
 
 class Tile():
     def __init__(self, coordinates: Coordinates,piece:Piece=None,) -> None:

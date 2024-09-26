@@ -2,7 +2,8 @@ from abc import ABC
 from fen import Fen
 from tile import Tile
 from piece import Rook, Knight, Bishop, Queen, King, Pawn
-from exceptions import InvalidFenNotation
+from exceptions.exceptions_fen import InvalidFenNotation
+
 from collections.abc import Iterator
 from board_iterator import BoardIteratorOneMatrix, BoardIteratorColumnRow
 from coordinates import Coordinates
