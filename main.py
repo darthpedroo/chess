@@ -1,7 +1,11 @@
+import random
 import pygame
 from business.board.chess_board import ChessBoard
 from business.coordinates.coordinates import Coordinates
 from presentation.board.board_drawer import BoardDrawer
+
+from presentation.colors import *  # pylint: disable = W0401 W0614
+
 
 # Initialize Pygame
 pygame.init()  # pylint: disable = E1101
@@ -12,11 +16,6 @@ SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Chessboard")
 
-# Set up colors
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-GREEN = (34, 139, 34)
-BROWN = (139, 69, 19)
 
 # Define the size of the grid
 GRID_SIZE = 8
@@ -42,6 +41,14 @@ def draw_board():
 
 def main():
     running = True
+
+    primary = random.choice(COLORS)
+    COLORS.remove(primary)
+    secondary = random.choice(COLORS)
+
+    PRIMARY_COLOR = primary
+    SECONDARY_COLOR = secondary
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # pylint: disable = E1101
@@ -55,7 +62,9 @@ def main():
         chess_board.add_piece(coords, "Vatertofee")
         board_drawer = BoardDrawer()
 
-        board_drawer.draw_board(chess_board, screen, TILE_SIZE, WHITE, BROWN)
+        board_drawer.draw_board(
+            chess_board, screen, TILE_SIZE, PRIMARY_COLOR, SECONDARY_COLOR
+        )
 
         pygame.display.flip()
 
