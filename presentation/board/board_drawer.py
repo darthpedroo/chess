@@ -28,12 +28,24 @@ class BoardDrawer:
             )
 
             if tile.has_piece():
-
-                # Calculate the center of the tile
                 center_x = col * tile_size + tile_size // 2
                 center_y = row * tile_size + tile_size // 2
 
-                # Draw the circle at the center of the tile
-                pygame.draw.circle(
-                    screen, (0, 0, 0), (center_x, center_y), tile_size // 4
+                path_to_piece = tile.get_piece().image_path
+
+                piece_image = pygame.image.load(path_to_piece)
+
+                x_scale_refactor = tile_size // 1.5
+                y_scale_refactor = tile_size // 1.5
+
+                piece_image = pygame.transform.scale(
+                    piece_image, (x_scale_refactor, y_scale_refactor)
+                )
+
+                screen.blit(
+                    piece_image,
+                    (
+                        center_x - piece_image.get_width() // 2,
+                        center_y - piece_image.get_height() // 2,
+                    ),
                 )

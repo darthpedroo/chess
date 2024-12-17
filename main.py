@@ -1,6 +1,7 @@
 import random
 import pygame
 from business.board.chess_board import ChessBoard
+from business.pieces.piece_factory import PieceFactory
 from business.coordinates.coordinates import Coordinates
 from presentation.board.board_drawer import BoardDrawer
 
@@ -50,6 +51,7 @@ def main():
     SECONDARY_COLOR = secondary
 
     while running:
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # pylint: disable = E1101
                 running = False
@@ -59,13 +61,16 @@ def main():
         chess_board = ChessBoard()
 
         coords = Coordinates(0, 0)
-        chess_board.add_piece(coords, "Vatertofee")
+        piece_factory = PieceFactory()
+
+        pawn = piece_factory.create_piece("pawn", "black")
+
+        chess_board.add_piece(coords, pawn)
         board_drawer = BoardDrawer()
 
         board_drawer.draw_board(
             chess_board, screen, TILE_SIZE, PRIMARY_COLOR, SECONDARY_COLOR
         )
-
         pygame.display.flip()
 
     # Quit Pygame
