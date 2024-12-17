@@ -47,8 +47,8 @@ def main():
     COLORS.remove(primary)
     secondary = random.choice(COLORS)
 
-    PRIMARY_COLOR = primary
-    SECONDARY_COLOR = secondary
+    PRIMARY_COLOR = WHITE
+    SECONDARY_COLOR = DARK_KHAKI
 
     while running:
 
@@ -60,12 +60,6 @@ def main():
 
         chess_board = ChessBoard()
 
-        coords = Coordinates(0, 0)
-        piece_factory = PieceFactory()
-
-        pawn = piece_factory.create_piece("pawn", "black")
-
-        chess_board.add_piece(coords, pawn)
         board_drawer = BoardDrawer()
 
         board_drawer.draw_board(

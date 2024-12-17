@@ -9,16 +9,18 @@ from business.pieces.piece import Piece
 from business.coordinates.i_coordinates import ICoordinates
 from business.coordinates.coordinates import Coordinates
 from business.player.player import Player
+from business.pieces.piece_factory import PieceFactory
 
 
 class ChessBoard(IBoard):
     def __init__(self, rows=8, columns=8):
         super().__init__(
             rows, columns
-        )  # Call parent class __init__ to initialize _rows, _columns, and _board
+        )  
         self.__board = (
             self._create_empty_board()
-        )  # You don't need to reinitialize _rows and _columns here
+        )  
+        self.__add_normal_pieces_layout()
 
     def __iter__(self) -> Iterator[ITile]:
         """Iterator to loop through the tiles of the board."""
@@ -39,8 +41,61 @@ class ChessBoard(IBoard):
                 board[row].append(new_tile)
         return board
 
-    # def __add_normal_pieces_layout(self):
-    #     pass
+    def __add_normal_pieces_layout(self):
+
+        piece_factory = PieceFactory()
+
+        for col in range(self._columns):
+            
+            black_pawn_coords = Coordinates(1,col)
+            white_pawn_coords = Coordinates(6,col)
+            black_pawn = piece_factory.create_piece("pawn", "black")
+            white_pawn = piece_factory.create_piece("pawn", "white")
+            self.add_piece(black_pawn_coords, black_pawn)
+            self.add_piece(white_pawn_coords, white_pawn)
+        
+        #Rooks
+        black_rook = piece_factory.create_piece("rook", "black")
+        white_rook = piece_factory.create_piece("rook", "white")
+        
+        self.add_piece(Coordinates(0,0),black_rook)
+        self.add_piece(Coordinates(0,7),black_rook)
+        self.add_piece(Coordinates(7,0),white_rook)
+        self.add_piece(Coordinates(7,7),white_rook)
+
+        #Knights
+        black_knight = piece_factory.create_piece("knight", "black")
+        white_knight = piece_factory.create_piece("knight", "white")
+        
+        self.add_piece(Coordinates(0,1),black_knight)
+        self.add_piece(Coordinates(0,6),black_knight)
+        self.add_piece(Coordinates(7,1),white_knight)
+        self.add_piece(Coordinates(7,6),white_knight)
+        
+        #Bishops
+        black_bishop = piece_factory.create_piece("bishop", "black")
+        white_bishop = piece_factory.create_piece("bishop", "white")
+        
+        self.add_piece(Coordinates(0,2),black_bishop)
+        self.add_piece(Coordinates(0,5),black_bishop)
+        self.add_piece(Coordinates(7,2),white_bishop)
+        self.add_piece(Coordinates(7,5),white_bishop)
+
+        #Queens
+        black_queen = piece_factory.create_piece("queen", "black")
+        white_queen = piece_factory.create_piece("queen", "white")
+        
+        self.add_piece(Coordinates(0,3),black_queen)
+        self.add_piece(Coordinates(7,3),white_queen)
+        
+        #King
+        black_king = piece_factory.create_piece("king", "black")
+        white_king = piece_factory.create_piece("king", "white")
+        
+        self.add_piece(Coordinates(0,4),black_king)
+        self.add_piece(Coordinates(7,4),white_king)
+
+        
 
     def add_piece(self, coordinates: ICoordinates, piece: Piece):
         x, y = coordinates.get_coordinates()
@@ -77,3 +132,4 @@ class ChessBoard(IBoard):
 
         start_tile.remove_piece()
         end_tile.add_piece(start_piece)
+
