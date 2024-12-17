@@ -13,6 +13,9 @@ class IBoard(ABC):
         self._rows = rows
         self._columns = columns
 
+    def __iter__(self) -> ITile:
+        """Iters through the board"""
+
     @abstractmethod
     def _create_empty_board(self) -> list[list[ITile]]:
         """Creates an empty board

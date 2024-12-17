@@ -6,5 +6,3 @@ from business.board.i_tile import ITile
 
 class ChessTile(ITile):
     pass
-
-

@@ -32,6 +32,25 @@ class TestBoard(unittest.TestCase):
         tile = self.chess_board.get_tile(coords)
         self.assertTrue(tile.has_piece())
 
+    def test_04_move_piece(self):
+        mock_player = Mock()
+        mock_piece = Mock()
+
+        start_coordinates = Coordinates(1, 3)
+        end_coordinates = Coordinates(1, 4)
+        self.chess_board.add_piece(start_coordinates, mock_piece)
+        self.chess_board.move_piece(mock_player, start_coordinates, end_coordinates)
+
+        self.assertFalse(self.chess_board.get_tile(start_coordinates).has_piece())
+        self.assertTrue(self.chess_board.get_tile(end_coordinates).has_piece())
+
+    def test_05_move_piece_where_there_is_no_piece_raises_error(self):
+        start_coordinates = Coordinates(1, 3)
+        end_coordinates = Coordinates(1, 4)
+        player = Mock()
+        with self.assertRaises(ValueError):
+            self.chess_board.move_piece(player, start_coordinates, end_coordinates)
+
 
 if __name__ == "__main__":
     unittest.main()

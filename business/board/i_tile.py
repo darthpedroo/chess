@@ -23,5 +23,11 @@ class ITile(IHaveCoordinates, IHaveAPiece):
     def add_piece(self, piece: Piece):
         self.__piece = piece
 
+    def get_piece(self) -> Piece:
+        return self.__piece
+
+    def remove_piece(self):
+        self.__piece = None
+
     def has_piece(self):
         return self.__piece is not None
