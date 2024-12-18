@@ -1,7 +1,7 @@
 
 MVP:
 
-[] Implementar piezas factory
-[] Renderizar las piezas en el tablero
-[] Mover las piezas en el tablero 
+[x] Implementar piezas factory
+[x] Renderizar las piezas en el tablero
+[x] Mover las piezas en el tablero 
 

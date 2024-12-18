@@ -42,7 +42,6 @@ def main():
 
                     if selected_tile_coordinates:
                         try:
-                            # Mover pieza si es válido
                             chess_board.move_piece(
                                 "Player Stub",
                                 selected_tile_coordinates,
@@ -56,6 +55,15 @@ def main():
                     else:
                         selected_tile_coordinates = clicked_coordinates
                         clicked_tile.change_to_alternate_color()
+                
+                elif event.button == 3:
+                    if selected_tile_coordinates is not None:
+                        print("cac")
+                        print(chess_board.get_tile(selected_tile_coordinates).get_possible_moves())
+                        logging.debug(chess_board.get_tile(selected_tile_coordinates).get_possible_moves())
+                        
+                        chess_board.get_tile(selected_tile_coordinates).reset_color()
+                        selected_tile_coordinates = None
 
         board_drawer = BoardDrawer()
         board_drawer.draw_board(chess_board, screen, TILE_SIZE)

@@ -1,6 +1,6 @@
 """Tile file
 """
-
+from abc import abstractmethod
 from business.interfaces.interfaces import IHaveCoordinates, IHaveAPiece
 from business.coordinates.i_coordinates import ICoordinates
 from business.pieces.piece import Piece
@@ -10,10 +10,15 @@ class ITile(IHaveCoordinates, IHaveAPiece):
 
     def __init__(self, coordinates: ICoordinates, piece: Piece = None):
         self.__coordinates = coordinates
-        self.__piece = piece
+        self._piece = piece
         self.color = self.__determine_piece_color()
 
         self.__alternate_color = (255, 0, 255)
+
+    @abstractmethod
+    def get_possible_moves(self):
+        """Get possible moves of the piece in that tile
+        """
 
     def change_to_alternate_color(self):
         self.color = self.__alternate_color
@@ -41,13 +46,13 @@ class ITile(IHaveCoordinates, IHaveAPiece):
         self.__coordinates = coordinates
 
     def add_piece(self, piece: Piece):
-        self.__piece = piece
+        self._piece = piece
 
     def get_piece(self) -> Piece:
-        return self.__piece
+        return self._piece
 
     def remove_piece(self):
-        self.__piece = None
+        self._piece = None
 
     def has_piece(self):
-        return self.__piece is not None
+        return self._piece is not None
