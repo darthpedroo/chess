@@ -123,27 +123,30 @@ class ChessBoard(IBoard):
 
         start_tile = self.get_tile(start_coordinates)
 
-        possible_movs =  start_tile.get_possible_moves()
+        possible_movs = start_tile.get_possible_moves()
 
         if not start_tile.has_piece():
             raise ValueError("La tile seleccionada no tiene pieza. Selecciona otra.")
-        
+
         start_piece = start_tile.get_piece()
 
         end_tile = self.get_tile(end_coordinates)
 
+        # Hacer esto una funcion aparte "check_path o algo asi :v"
         temp_movs = []
         for mov in possible_movs:
-            temp = start_coordinates + mov
-            temp_movs.append(temp)
-        
+            for coordinate in mov:
+                temp = start_coordinates + coordinate
+                try:
+                    if self.get_tile(temp).has_piece():
+                        break
+                except IndexError:
+                    print("hay q matar estos valores pe :V: ", temp)
+
+                temp_movs.append(temp)
+
         if end_coordinates in temp_movs:
             start_tile.remove_piece()
             end_tile.add_piece(start_piece)
         else:
             raise ValueError("No se puede mover eso mijo")
-
-
-        
-        
-

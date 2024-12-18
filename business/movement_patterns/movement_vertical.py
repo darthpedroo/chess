@@ -2,9 +2,14 @@ from business.movement_patterns.movement_patterns import MovementPattern
 from business.coordinates.coordinates import Coordinates
 
 
-class MovementOneUp(MovementPattern):
+class MovementVertical(MovementPattern):
 
     def get_posible_movements(self):
+
         movements = []
-        movements.append(Coordinates(1, 0))
+        for i in range(7):
+            mov = i + 1
+            movements.append(Coordinates(mov, 0))
+            movements.append(Coordinates(-mov, 0))
+
         return movements

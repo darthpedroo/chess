@@ -1,9 +1,6 @@
-import random
 import logging
 import pygame
 from business.board.chess_board import ChessBoard
-from business.pieces.piece_factory import PieceFactory
-from business.coordinates.coordinates import Coordinates
 from presentation.board.board_drawer import BoardDrawer
 from presentation.inputs.input_handler import InputHandler
 
@@ -32,7 +29,7 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # pylint: disable = E1101
                 running = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:  # Handle mouse button click
+            elif event.type == pygame.MOUSEBUTTONDOWN:  # pylint: disable = E1101
                 if event.button == 1:  # Left mouse button
 
                     clicked_coordinates = (
@@ -55,13 +52,21 @@ def main():
                     else:
                         selected_tile_coordinates = clicked_coordinates
                         clicked_tile.change_to_alternate_color()
-                
+
                 elif event.button == 3:
                     if selected_tile_coordinates is not None:
                         print("cac")
-                        print(chess_board.get_tile(selected_tile_coordinates).get_possible_moves())
-                        logging.debug(chess_board.get_tile(selected_tile_coordinates).get_possible_moves())
-                        
+                        print(
+                            chess_board.get_tile(
+                                selected_tile_coordinates
+                            ).get_possible_moves()
+                        )
+                        logging.debug(
+                            chess_board.get_tile(
+                                selected_tile_coordinates
+                            ).get_possible_moves()
+                        )
+
                         chess_board.get_tile(selected_tile_coordinates).reset_color()
                         selected_tile_coordinates = None
 

@@ -1,6 +1,7 @@
 from abc import ABC
 from business.movement_patterns.movement_patterns import MovementPattern
 
+
 class Piece(ABC):
 
     def __init__(self, name: str, color: str):

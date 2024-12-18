@@ -12,12 +12,11 @@ class Coordinates(ICoordinates):
 
     def __add__(self, other_coordinates: "Coordinates"):
 
-        x , y = other_coordinates.get_coordinates()
+        x, y = other_coordinates.get_coordinates()
         return Coordinates(self.x + x, self.y + y)
 
-    
     def __str__(self):
-        coords = (self.x , self.y)
+        coords = (self.x, self.y)
         return str(coords)
 
     def get_coordinates(self) -> tuple[int, int]:
