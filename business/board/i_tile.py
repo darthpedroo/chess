@@ -11,7 +11,27 @@ class ITile(IHaveCoordinates, IHaveAPiece):
     def __init__(self, coordinates: ICoordinates, piece: Piece = None):
         self.__coordinates = coordinates
         self.__piece = piece
+        self.color = self.__determine_piece_color()
 
+        self.__alternate_color = (255, 0, 255)
+
+    def change_to_alternate_color(self):
+        self.color = self.__alternate_color
+
+    def reset_color(self):
+        self.color = self.__determine_piece_color()
+
+    def __determine_piece_color(self):
+        primary_color = (255,255,255)
+        secondary_color = (0,0,0)
+
+        row, col = self.coordinates.get_coordinates()
+        if (row + col) % 2 == 0:
+            color = primary_color
+        else:
+            color = secondary_color
+        return color
+    
     @property
     def coordinates(self) -> ICoordinates:
         return self.__coordinates

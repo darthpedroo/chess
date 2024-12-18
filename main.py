@@ -1,9 +1,11 @@
 import random
+import logging
 import pygame
 from business.board.chess_board import ChessBoard
 from business.pieces.piece_factory import PieceFactory
 from business.coordinates.coordinates import Coordinates
 from presentation.board.board_drawer import BoardDrawer
+from presentation.inputs.input_handler import InputHandler
 
 from presentation.colors import *  # pylint: disable = W0401 W0614
 
@@ -15,61 +17,64 @@ pygame.init()  # pylint: disable = E1101
 SCREEN_WIDTH = 600
 SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Chessboard")
+pygame.display.set_caption("CHESS")
 
 
-# Define the size of the grid
-GRID_SIZE = 8
-TILE_SIZE = SCREEN_WIDTH // GRID_SIZE  # Dividing screen width into 8 tiles
 
 
-# Function to draw a chessboard
-def draw_board():
-    for row in range(GRID_SIZE):
-        for col in range(GRID_SIZE):
-            # Alternate colors for the tiles
-            if (row + col) % 2 == 0:
-                color = WHITE  # White tile
-            else:
-                color = BLACK  # Black tile
-            # Draw the rectangle (tile)
-            pygame.draw.rect(
-                screen,
-                color,
-                pygame.Rect(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE),
-            )
 
 
 def main():
     running = True
+    input_handler = InputHandler()
+    chess_board = ChessBoard()
 
-    primary = random.choice(COLORS)
-    COLORS.remove(primary)
-    secondary = random.choice(COLORS)
+    selected_tile_coordinates = None  
+    TILE_SIZE = SCREEN_WIDTH // len(chess_board)
 
-    PRIMARY_COLOR = WHITE
-    SECONDARY_COLOR = DARK_KHAKI
 
     while running:
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # pylint: disable = E1101
                 running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:  # Handle mouse button click
+                if event.button == 1:  # Left mouse button
 
-        screen.fill(GREEN)
+                    clicked_coordinates = input_handler.get_coordinates_from_mouse_position(TILE_SIZE)
+                    clicked_tile = chess_board.get_tile(clicked_coordinates)
 
-        chess_board = ChessBoard()
+                    if selected_tile_coordinates:
+                        try:
+                            # Mover pieza si es válido
+                            chess_board.move_piece(
+                                "Player Stub", selected_tile_coordinates, clicked_coordinates
+                            )
+                        except ValueError:
+                            pass  
+
+                        chess_board.get_tile(selected_tile_coordinates).reset_color()
+                        selected_tile_coordinates = None  
+                    else:
+                        selected_tile_coordinates = clicked_coordinates
+                        clicked_tile.change_to_alternate_color()
+
+
+                    
+    
 
         board_drawer = BoardDrawer()
-
         board_drawer.draw_board(
-            chess_board, screen, TILE_SIZE, PRIMARY_COLOR, SECONDARY_COLOR
+            chess_board, screen, TILE_SIZE
         )
+                
         pygame.display.flip()
 
-    # Quit Pygame
     pygame.quit()  # pylint: disable = E1101
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+    level=logging.DEBUG,  # Set logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    format='%(asctime)s - %(levelname)s - %(message)s',  # Log message format
+)
     main()
