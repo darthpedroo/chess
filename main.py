@@ -20,18 +20,13 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("CHESS")
 
 
-
-
-
-
 def main():
     running = True
     input_handler = InputHandler()
     chess_board = ChessBoard()
 
-    selected_tile_coordinates = None  
+    selected_tile_coordinates = None
     TILE_SIZE = SCREEN_WIDTH // len(chess_board)
-
 
     while running:
         for event in pygame.event.get():
@@ -40,33 +35,31 @@ def main():
             elif event.type == pygame.MOUSEBUTTONDOWN:  # Handle mouse button click
                 if event.button == 1:  # Left mouse button
 
-                    clicked_coordinates = input_handler.get_coordinates_from_mouse_position(TILE_SIZE)
+                    clicked_coordinates = (
+                        input_handler.get_coordinates_from_mouse_position(TILE_SIZE)
+                    )
                     clicked_tile = chess_board.get_tile(clicked_coordinates)
 
                     if selected_tile_coordinates:
                         try:
                             # Mover pieza si es válido
                             chess_board.move_piece(
-                                "Player Stub", selected_tile_coordinates, clicked_coordinates
+                                "Player Stub",
+                                selected_tile_coordinates,
+                                clicked_coordinates,
                             )
                         except ValueError:
-                            pass  
+                            pass
 
                         chess_board.get_tile(selected_tile_coordinates).reset_color()
-                        selected_tile_coordinates = None  
+                        selected_tile_coordinates = None
                     else:
                         selected_tile_coordinates = clicked_coordinates
                         clicked_tile.change_to_alternate_color()
 
-
-                    
-    
-
         board_drawer = BoardDrawer()
-        board_drawer.draw_board(
-            chess_board, screen, TILE_SIZE
-        )
-                
+        board_drawer.draw_board(chess_board, screen, TILE_SIZE)
+
         pygame.display.flip()
 
     pygame.quit()  # pylint: disable = E1101
@@ -74,7 +67,7 @@ def main():
 
 if __name__ == "__main__":
     logging.basicConfig(
-    level=logging.DEBUG,  # Set logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-    format='%(asctime)s - %(levelname)s - %(message)s',  # Log message format
-)
+        level=logging.DEBUG,  # Set logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+        format="%(asctime)s - %(levelname)s - %(message)s",  # Log message format
+    )
     main()

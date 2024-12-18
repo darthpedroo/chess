@@ -65,12 +65,11 @@ class IBoard(ABC):
         Returns:
             ITile:
         """
-    
+
     @abstractmethod
-    def change_tile_color(self, coords:ICoordinates,color:tuple[int,int,int]):
+    def change_tile_color(self, coords: ICoordinates, color: tuple[int, int, int]):
         """Changes the color of a tile
 
         Args:
             color (tuple[int,int,int]): Desired color
         """
-    

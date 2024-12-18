@@ -2,6 +2,7 @@ import pygame
 from business.board.i_tile import ITile
 from business.board.i_board import IBoard
 
+
 class BoardDrawer:
 
     def draw_board(
@@ -15,7 +16,7 @@ class BoardDrawer:
         for tile in board:
 
             row, col = tile.coordinates.get_coordinates()
-            
+
             pygame.draw.rect(
                 screen,
                 tile.color,

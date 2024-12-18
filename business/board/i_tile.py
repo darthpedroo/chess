@@ -22,8 +22,8 @@ class ITile(IHaveCoordinates, IHaveAPiece):
         self.color = self.__determine_piece_color()
 
     def __determine_piece_color(self):
-        primary_color = (255,255,255)
-        secondary_color = (0,0,0)
+        primary_color = (255, 255, 255)
+        secondary_color = (0, 0, 0)
 
         row, col = self.coordinates.get_coordinates()
         if (row + col) % 2 == 0:
@@ -31,7 +31,7 @@ class ITile(IHaveCoordinates, IHaveAPiece):
         else:
             color = secondary_color
         return color
-    
+
     @property
     def coordinates(self) -> ICoordinates:
         return self.__coordinates
