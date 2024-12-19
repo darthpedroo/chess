@@ -11,8 +11,8 @@ from presentation.colors import *  # pylint: disable = W0401 W0614
 pygame.init()  # pylint: disable = E1101
 
 # Set up screen dimensions
-SCREEN_WIDTH = 600
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 1000
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("CHESS")
 
@@ -21,7 +21,7 @@ def main():
     running = True
     input_handler = InputHandler()
     chess_board = ChessBoard()
-
+    clicked_coordinates = None
     selected_tile_coordinates = None
     TILE_SIZE = SCREEN_WIDTH // len(chess_board)
 
@@ -49,6 +49,7 @@ def main():
 
                         chess_board.get_tile(selected_tile_coordinates).reset_color()
                         selected_tile_coordinates = None
+                        clicked_coordinates = None
                     else:
                         selected_tile_coordinates = clicked_coordinates
                         clicked_tile.change_to_alternate_color()
@@ -60,6 +61,11 @@ def main():
 
         board_drawer = BoardDrawer()
         board_drawer.draw_board(chess_board, screen, TILE_SIZE)
+
+        if clicked_coordinates is not None:
+            board_drawer.draw_possible_moves(
+                chess_board, clicked_coordinates, screen, TILE_SIZE
+            )
 
         pygame.display.flip()
 

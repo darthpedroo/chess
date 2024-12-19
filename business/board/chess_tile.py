@@ -16,4 +16,4 @@ class ChessTile(ITile):
                 movs.append(mov_list.get_posible_movements())
             return movs
 
-        return None
+        return []

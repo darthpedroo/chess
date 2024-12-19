@@ -132,21 +132,38 @@ class ChessBoard(IBoard):
 
         end_tile = self.get_tile(end_coordinates)
 
-        # Hacer esto una funcion aparte "check_path o algo asi :v"
-        temp_movs = []
-        for mov in possible_movs:
-            for coordinate in mov:
-                temp = start_coordinates + coordinate
-                try:
-                    if self.get_tile(temp).has_piece():
-                        break
-                except IndexError:
-                    print("hay q matar estos valores pe :V: ", temp)
-
-                temp_movs.append(temp)
+        temp_movs = self.check_path(start_coordinates, possible_movs)
 
         if end_coordinates in temp_movs:
             start_tile.remove_piece()
             end_tile.add_piece(start_piece)
         else:
             raise ValueError("No se puede mover eso mijo")
+
+    # Esto podria ir en partida ???
+    def check_path(self, start_coordinates: Coordinates, possible_movs):
+        temp_movs = []
+
+        for mov in possible_movs:
+            for coordinate in mov:
+                temp = start_coordinates + coordinate
+                try:
+                    tile = self.get_tile(temp)
+                    start_piece = self.get_tile(start_coordinates).get_piece()
+
+                    has_piece = tile.has_piece()
+                    is_opponent = (
+                        has_piece and tile.get_piece().color != start_piece.color
+                    )
+
+                    if has_piece:
+                        if is_opponent:
+                            temp_movs.append(temp)
+                        break
+
+                    temp_movs.append(temp)
+
+                except IndexError:
+                    pass  # Ignore out-of-bounds coordinates
+
+        return temp_movs
