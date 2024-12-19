@@ -2,6 +2,7 @@ from unittest.mock import Mock
 import unittest
 from business.board.chess_board import ChessBoard
 from business.coordinates.coordinates import Coordinates
+from business.pieces.piece_factory import PieceFactory
 
 
 class TestBoard(unittest.TestCase):
@@ -23,6 +24,7 @@ class TestBoard(unittest.TestCase):
     def test_02_tile_has_no_piece(self):
         coords = Coordinates(0, 0)
         tile = self.chess_board.get_tile(coords)
+        self.chess_board.remove_piece(coords)
         self.assertFalse(tile.has_piece())
 
     def test_03_tile_has_piece(self):
@@ -33,12 +35,12 @@ class TestBoard(unittest.TestCase):
         self.assertTrue(tile.has_piece())
 
     def test_04_move_piece(self):
-        mock_player = Mock()
-        mock_piece = Mock()
 
-        start_coordinates = Coordinates(1, 3)
-        end_coordinates = Coordinates(1, 4)
-        self.chess_board.add_piece(start_coordinates, mock_piece)
+        mock_player = Mock()
+        piece = PieceFactory().create_piece("queen", "black")
+        start_coordinates = Coordinates(4, 4)
+        end_coordinates = Coordinates(4, 5)
+        self.chess_board.add_piece(start_coordinates, piece)
         self.chess_board.move_piece(mock_player, start_coordinates, end_coordinates)
 
         self.assertFalse(self.chess_board.get_tile(start_coordinates).has_piece())
