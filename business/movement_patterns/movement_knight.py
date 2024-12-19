@@ -42,4 +42,3 @@ class KnightMove7(MovementPattern):
 class KnightMove8(MovementPattern):
     def get_posible_movements(self):
         return [Coordinates(-1, -2)]
-

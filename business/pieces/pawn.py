@@ -1,6 +1,6 @@
 from business.pieces.piece import Piece
-from business.movement_patterns.movement_one_up import MovementOneUp
-from business.movement_patterns.movement_one_down import MovementOneDown
+from business.movement_patterns.movement_one import MovementOneUp
+from business.movement_patterns.movement_one import MovementOneDown
 
 
 class Pawn(Piece):
